@@ -11,17 +11,8 @@
     <modules>
         <module>cpp</module>
         <module>cpp2</module>
-        <module>csharp</module>
-        <module>golang</module>
         <module>java</module>
         <module>kotlin</module>
-        <module>python-3</module>
-        <module>rlang</module>
-        <module>rust</module>
-        <module>scala</module>
-        <module>scheme</module>
-        <module>swift</module>
-        <module>text</module>
     </modules>
     <dependencies>
         <dependency>
