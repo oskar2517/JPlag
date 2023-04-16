@@ -45,6 +45,11 @@ public abstract class TestBase {
 
     }
 
+    protected JPlagResult runJPlagWithBlacklistFile(String testSampleName, String blacklistFileName) throws ExitException {
+        String blackList = Path.of(BASE_PATH, testSampleName, blacklistFileName).toString();
+        return runJPlag(testSampleName, options -> options.withBlacklistFileName(blackList));
+    }
+
     /**
      * Runs JPlag with default options for a given test sample and returns the result.
      */

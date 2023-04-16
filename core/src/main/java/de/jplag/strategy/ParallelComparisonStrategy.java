@@ -26,10 +26,9 @@ public class ParallelComparisonStrategy extends AbstractComparisonStrategy {
         }
     }
 
-    @Override
-    protected Stream<SubmissionTuple> prepareStream(List<SubmissionTuple> tuples) {
-        return tuples.stream().parallel();
-    }
+        List<SubmissionTuple> tuples = buildComparisonTuples(submissionSet.getSubmissions(), options);
+        List<JPlagComparison> comparisons = tuples.stream().parallel().map(tuple -> compareSubmissions(tuple.left(), tuple.right()))
+                .flatMap(Optional::stream).toList();
 
     @Override
     protected Optional<JPlagComparison> compareTuple(SubmissionTuple tuple) {
