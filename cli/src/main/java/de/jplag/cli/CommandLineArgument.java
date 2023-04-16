@@ -46,6 +46,7 @@ public enum CommandLineArgument {
     SUBDIRECTORY(new Builder("-s", String.class).argumentGroup(ADVANCED_GROUP)),
     SUFFIXES(new Builder("-p", String.class).argumentGroup(ADVANCED_GROUP)),
     EXCLUDE_FILE(new Builder("-x", String.class).argumentGroup(ADVANCED_GROUP)),
+    BLACKLIST_FILE(new Builder("-b", String.class).argumentGroup(ADVANCED_GROUP)),
     MIN_TOKEN_MATCH("-t", Integer.class),
     SIMILARITY_THRESHOLD(new Builder("-m", Double.class).defaultsTo(DEFAULT_SIMILARITY_THRESHOLD).argumentGroup(ADVANCED_GROUP)),
     SHOWN_COMPARISONS(new Builder("-n", Integer.class).defaultsTo(DEFAULT_SHOWN_COMPARISONS)),

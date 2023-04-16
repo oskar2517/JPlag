@@ -1,33 +1,5 @@
 package de.jplag.cli;
 
-import static de.jplag.cli.CommandLineArgument.BASE_CODE;
-import static de.jplag.cli.CommandLineArgument.CLUSTER_AGGLOMERATIVE_INTER_CLUSTER_SIMILARITY;
-import static de.jplag.cli.CommandLineArgument.CLUSTER_AGGLOMERATIVE_THRESHOLD;
-import static de.jplag.cli.CommandLineArgument.CLUSTER_ALGORITHM;
-import static de.jplag.cli.CommandLineArgument.CLUSTER_DISABLE;
-import static de.jplag.cli.CommandLineArgument.CLUSTER_METRIC;
-import static de.jplag.cli.CommandLineArgument.CLUSTER_PREPROCESSING_CDF;
-import static de.jplag.cli.CommandLineArgument.CLUSTER_PREPROCESSING_NONE;
-import static de.jplag.cli.CommandLineArgument.CLUSTER_PREPROCESSING_PERCENTILE;
-import static de.jplag.cli.CommandLineArgument.CLUSTER_PREPROCESSING_THRESHOLD;
-import static de.jplag.cli.CommandLineArgument.CLUSTER_SPECTRAL_BANDWIDTH;
-import static de.jplag.cli.CommandLineArgument.CLUSTER_SPECTRAL_KMEANS_ITERATIONS;
-import static de.jplag.cli.CommandLineArgument.CLUSTER_SPECTRAL_MAX_RUNS;
-import static de.jplag.cli.CommandLineArgument.CLUSTER_SPECTRAL_MIN_RUNS;
-import static de.jplag.cli.CommandLineArgument.CLUSTER_SPECTRAL_NOISE;
-import static de.jplag.cli.CommandLineArgument.DEBUG;
-import static de.jplag.cli.CommandLineArgument.EXCLUDE_FILE;
-import static de.jplag.cli.CommandLineArgument.LANGUAGE;
-import static de.jplag.cli.CommandLineArgument.MIN_TOKEN_MATCH;
-import static de.jplag.cli.CommandLineArgument.NEW_DIRECTORY;
-import static de.jplag.cli.CommandLineArgument.OLD_DIRECTORY;
-import static de.jplag.cli.CommandLineArgument.RESULT_FOLDER;
-import static de.jplag.cli.CommandLineArgument.ROOT_DIRECTORY;
-import static de.jplag.cli.CommandLineArgument.SHOWN_COMPARISONS;
-import static de.jplag.cli.CommandLineArgument.SIMILARITY_THRESHOLD;
-import static de.jplag.cli.CommandLineArgument.SUBDIRECTORY;
-import static de.jplag.cli.CommandLineArgument.SUFFIXES;
-
 import java.io.File;
 import java.security.SecureRandom;
 import java.util.ArrayList;
@@ -53,6 +25,8 @@ import net.sourceforge.argparse4j.ArgumentParsers;
 import net.sourceforge.argparse4j.inf.ArgumentParser;
 import net.sourceforge.argparse4j.inf.ArgumentParserException;
 import net.sourceforge.argparse4j.inf.Namespace;
+
+import static de.jplag.cli.CommandLineArgument.*;
 
 /**
  * Command line interface class, allows using via command line.
@@ -158,7 +132,7 @@ public final class CLI {
         JPlagOptions options = new JPlagOptions(language, MIN_TOKEN_MATCH.getFrom(namespace), submissionDirectories, oldSubmissionDirectories, null,
                 SUBDIRECTORY.getFrom(namespace), Arrays.stream(fileSuffixes).toList(), EXCLUDE_FILE.getFrom(namespace),
                 JPlagOptions.DEFAULT_SIMILARITY_METRIC, SIMILARITY_THRESHOLD.getFrom(namespace), SHOWN_COMPARISONS.getFrom(namespace),
-                clusteringOptions, DEBUG.getFrom(namespace));
+                clusteringOptions, DEBUG.getFrom(namespace), BLACKLIST_FILE.getFrom(namespace));
 
         String baseCodePath = BASE_CODE.getFrom(namespace);
         File baseCodeDirectory = baseCodePath == null ? null : new File(baseCodePath);
