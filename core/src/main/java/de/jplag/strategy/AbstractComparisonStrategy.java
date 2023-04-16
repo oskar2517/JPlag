@@ -1,8 +1,6 @@
 package de.jplag.strategy;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -55,10 +53,25 @@ public abstract class AbstractComparisonStrategy implements ComparisonStrategy {
         return Optional.empty();
     }
 
+    private static boolean isTupleBlacklisted(SubmissionTuple tuple, Set<String[]> blacklist) {
+        for (String[] t : blacklist) {
+            if (tuple.left().getName().endsWith(t[0]) && tuple.right().getName().endsWith(t[1])) {
+                return true;
+            }
+
+            if (tuple.right().getName().endsWith(t[0]) && tuple.left().getName().endsWith(t[1])) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     /**
      * @return a list of all submission tuples to be processed.
      */
-    protected static List<SubmissionTuple> buildComparisonTuples(List<Submission> submissions) {
+    protected static List<SubmissionTuple> buildComparisonTuples(List<Submission> submissions, JPlagOptions options) {
+        Set<String[]> blacklist = options.blacklistedFiles();
         List<SubmissionTuple> tuples = new ArrayList<>();
         List<Submission> validSubmissions = submissions.stream().filter(s -> s.getTokenList() != null).toList();
 
@@ -66,8 +79,11 @@ public abstract class AbstractComparisonStrategy implements ComparisonStrategy {
             Submission first = validSubmissions.get(i);
             for (int j = (i + 1); j < validSubmissions.size(); j++) {
                 Submission second = validSubmissions.get(j);
-                if (first.isNew() || second.isNew()) {
-                    tuples.add(new SubmissionTuple(first, second));
+                if (first.isNew() || second.isNew())  {
+                    SubmissionTuple t = new SubmissionTuple(first, second);
+                    if (!isTupleBlacklisted(t, blacklist)) {
+                        tuples.add(t);
+                    }
                 }
             }
         }
