@@ -5,11 +5,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
@@ -203,7 +199,7 @@ public record JPlagOptions(@JsonSerialize(using = LanguageSerializer.class) Lang
         return Optional.ofNullable(exclusionFileName()).map(this::readExclusionFile).orElse(Collections.emptySet());
     }
 
-    public Set<String[]> blacklistedFiles() {
+    public Set<SubmissionNamePair> blacklistedFiles() {
         return Optional.ofNullable(blacklistFileName()).map(this::readBlacklistFile).orElse(Collections.emptySet());
     }
 
@@ -238,13 +234,22 @@ public record JPlagOptions(@JsonSerialize(using = LanguageSerializer.class) Lang
         }
     }
 
-    private Set<String[]> readBlacklistFile(final String blacklistFileName) {
+    private Set<SubmissionNamePair> readBlacklistFile(final String blacklistFileName) {
+        final Set<SubmissionNamePair> listedPairs = new HashSet<>();
+
         try (BufferedReader reader = new BufferedReader(new FileReader(blacklistFileName, JPlagOptions.CHARSET))) {
-            final var blacklistFileNames = reader.lines().map(l -> l.split(";")).collect(Collectors.toSet());
-            if (logger.isDebugEnabled()) {
-                logger.debug("Blacklisted files:{}{}", System.lineSeparator(), blacklistFileNames.stream().map(i -> String.join(";", i)).collect(Collectors.joining(System.lineSeparator())));
+            for (String line; (line = reader.readLine()) != null; ) {
+                String[] pairs = line.split(";");
+
+                for (int i = 0; i < pairs.length; i++) {
+                    for (int j = i + 1; j < pairs.length; j++) {
+                        listedPairs.add(new SubmissionNamePair(pairs[i], pairs[j]));
+                        listedPairs.add(new SubmissionNamePair(pairs[j], pairs[i]));
+                    }
+                }
             }
-            return blacklistFileNames;
+
+            return listedPairs;
         } catch (IOException e) {
             logger.error("Could not read blacklist file: " + e.getMessage(), e);
             return Collections.emptySet();
