@@ -89,6 +89,10 @@ public class CliOptions implements Runnable {
                 "--exclusion-file"}, description = "All files named in this file will be ignored in the comparison (line-separated list).")
         public String exclusionFileName;
 
+        @Option(names = {"-b",
+                "--blacklist-file"}, description = "All pairs of submissions listed in this file will be ignored in the comparison (line-separated list).")
+        public String blacklistFileName;
+
         @Option(names = {"-m",
                 "--similarity-threshold"}, description = "Comparison similarity threshold [0.0-1.0]: All comparisons above this threshold will "
                         + "be saved (default: ${DEFAULT-VALUE}).")

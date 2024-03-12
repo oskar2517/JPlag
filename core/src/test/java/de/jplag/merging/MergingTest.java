@@ -54,7 +54,7 @@ class MergingTest extends TestBase {
 
     @BeforeEach
     void prepareTestState() {
-        JPlagResult result = comparisonStrategy.compareSubmissions(submissionSet);
+        JPlagResult result = comparisonStrategy.compareSubmissions(submissionSet, options);
         comparisonsBefore = new ArrayList<>(result.getAllComparisons());
 
         if (options.mergingOptions().enabled()) {

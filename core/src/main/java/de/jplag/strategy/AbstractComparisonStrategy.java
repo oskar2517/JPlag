@@ -1,6 +1,7 @@
 package de.jplag.strategy;
 
 import java.util.*;
+import java.util.stream.Stream;
 
 import de.jplag.options.SubmissionNamePair;
 import org.slf4j.Logger;
@@ -85,12 +86,12 @@ public abstract class AbstractComparisonStrategy implements ComparisonStrategy {
     }
 
     @Override
-    public JPlagResult compareSubmissions(SubmissionSet submissionSet) {
+    public JPlagResult compareSubmissions(SubmissionSet submissionSet, JPlagOptions options) {
         long timeBeforeStartInMillis = System.currentTimeMillis();
 
         handleBaseCode(submissionSet);
 
-        List<SubmissionTuple> tuples = buildComparisonTuples(submissionSet.getSubmissions());
+        List<SubmissionTuple> tuples = buildComparisonTuples(submissionSet.getSubmissions(), options);
         ProgressBar progressBar = ProgressBarLogger.createProgressBar(ProgressBarType.COMPARING, tuples.size());
         List<JPlagComparison> comparisons = prepareStream(tuples).flatMap(tuple -> {
             Optional<JPlagComparison> result = compareTuple(tuple);

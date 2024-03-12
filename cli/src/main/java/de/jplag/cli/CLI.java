@@ -42,8 +42,6 @@ import picocli.CommandLine.Model.CommandSpec;
 import picocli.CommandLine.Model.OptionSpec;
 import picocli.CommandLine.ParseResult;
 
-import static de.jplag.cli.CommandLineArgument.*;
-
 /**
  * Command line interface class, allows using via command line.
  * @see CLI#main(String[])
@@ -219,7 +217,7 @@ public final class CLI {
         JPlagOptions jPlagOptions = new JPlagOptions(loadLanguage(parseResult), this.options.minTokenMatch, submissionDirectories,
                 oldSubmissionDirectories, null, this.options.advanced.subdirectory, suffixes, this.options.advanced.exclusionFileName,
                 JPlagOptions.DEFAULT_SIMILARITY_METRIC, this.options.advanced.similarityThreshold, this.options.shownComparisons, clusteringOptions,
-                this.options.advanced.debug, mergingOptions, this.options.normalize, BLACKLIST_FILE.getFrom(namespace));
+                this.options.advanced.debug, mergingOptions, this.options.normalize, this.options.advanced.blacklistFileName);
 
         String baseCodePath = this.options.baseCode;
         File baseCodeDirectory = baseCodePath == null ? null : new File(baseCodePath);

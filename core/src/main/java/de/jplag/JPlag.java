@@ -80,7 +80,7 @@ public class JPlag {
         }
 
         // Compare valid submissions.
-        JPlagResult result = comparisonStrategy.compareSubmissions(submissionSet);
+        JPlagResult result = comparisonStrategy.compareSubmissions(submissionSet, options);
 
         // Use Match Merging against obfuscation
         if (options.mergingOptions().enabled()) {
